@@ -19,51 +19,59 @@ buecher = {
     "9780131177055": {"titel":"Design Patterns","autor":"Gamma et al.","jahr":1994,"seiten":395,"preis_eur":47.00}
 }
 
+buch_daten = None
+
 def ausgabe_suche(isbn, buch):
     print(10 * "\n")
-    print(f"ISBN                    :  {isbn}")
-    print(f"Titel                   :  {buch['titel']}")
-    print(f"Autor                   :  {buch['autor']}")
-    print(f"Preis                   :  {buch['preis_eur']} €")
-    print(f"Erscheinungsjahr        :  {buch['jahr']}")
-    print(f"Seiten                  :  {buch['seiten']}")
+    print(f"isbn                    :  {isbn}")
+    print(f"titel                   :  {buch['titel']}")
+    print(f"autor                   :  {buch['autor']}")
+    print(f"preis                   :  {buch['preis_eur']} €")
+    print(f"erscheinungsjahr        :  {buch['jahr']}")
+    print(f"seiten                  :  {buch['seiten']}")
     print(5 * "\n")
 
 def suche_buecher(buecher):
     gesuch = int(input(
-        "Womit möchtest du dein Buch suchen?: \n"
-        "1. ISBN\n"
-        "2. Titel\n"
-        "3. Autor\n"))
+        "womit möchtest du dein buch suchen?: \n"
+        "1. isbn\n"
+        "2. titel\n"
+        "3. autor\n"))
 
     if gesuch == 1:
-        isbn = input("Bitte die 13-stellige ISBN eingeben:\n").strip()
+        isbn = input("bitte die 13-stellige isbn eingeben:\n").strip()
         if isbn in buecher:
+            global buch_daten
             buch = buecher[isbn]
             ausgabe_suche(isbn, buch)
+            buch_daten = isbn , buch
             return isbn, buch
+
+            ISBN = isbn
         else:
-            print(f"ISBN '{isbn}' nicht gefunden.\n")
+            print(f"isbn '{isbn}' nicht gefunden.\n")
             return None, None
 
     elif gesuch == 2:
-        titel_origin = input("Bitte gib den Titel ein:\n")
+        titel_origin = input("bitte gib den titel ein:\n")
         titel = titel_origin.strip().lower()
         gefunden = False
 
         for isbn, buch in buecher.items():
             if buch["titel"].lower() == titel:
+                global x
                 ausgabe_suche(isbn, buch)
                 gefunden = True
+                x = isbn
                 return isbn, buch
                 break
 
         if not gefunden:
-            print(f"Titel '{titel_origin}' nicht gefunden.\n")
-            return None, None
+            print(f"titel '{titel_origin}' nicht gefunden.\n")
+            return none, none
 
     elif gesuch == 3:
-        autor_origin = input("Bitte gib den Autor ein:\n")
+        autor_origin = input("bitte gib den autor ein:\n")
         autor = autor_origin.strip().lower()
         gefunden = False
 
@@ -75,31 +83,10 @@ def suche_buecher(buecher):
                 break
 
         if not gefunden:
-            print(f"Autor '{autor_origin}' nicht gefunden.\n")
+            print(f"autor '{autor_origin}' nicht gefunden.\n")
             return None, None
 
-
     else:
-        print("Ungültige Eingabe.")
-        return None, None
+        print("ungültige eingabe.")
+        return None , None
 
-isbn, buch = suche_buecher(buecher)
-
-def buch_ausleihen(isbn, buch):
-    ausleihen = input(f"\nMöchtest du das Buch mit der ISBN '{isbn}' "
-                      f"'{buch['titel']}' ausleihen?\n"
-                      f"'j' für 'Ja'\n"
-                      f"'n' für 'Nein'\n> ").strip().lower()
-    if ausleihen == "j":
-        kd_nr = input(f"Bitte geben Sie Ihre Kunden-Nummer ein:\n")
-        return  kd_nr
-    else:
-        print(f"Danke und auf wieder sehen!")
-        return None
-
-if buch:
-    kundennummer = buch_ausleihen(isbn, buch)
-    if kundennummer:
-        print(f"\nBuch '{buch['titel']}' wird für Kundennummer {kundennummer} reserviert.")
-    else:
-        print("Keine gültige auswahl getroffen.")
