@@ -1,6 +1,6 @@
 import bibliothek
 
-bibliothek.suche_buecher()
+#bibliothek.suche_buecher()
 
 
 
